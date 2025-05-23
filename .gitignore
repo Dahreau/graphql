@@ -1,0 +1,13 @@
+# .gitignore
+
+# Fichiers système
+.DS_Store
+
+# Configs d'éditeur
+.vscode/
+.idea/
+
+# Sauvegardes ou temporaires
+*.log
+*.tmp
+*.bak
