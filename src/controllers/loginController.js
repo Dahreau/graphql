@@ -1,3 +1,4 @@
+// controllers/loginController.js
 const signUrl = "https://zone01normandie.org/api/auth/signin";
 
 export async function loginHandler(username, password, router) {
@@ -16,6 +17,13 @@ export async function loginHandler(username, password, router) {
     if (!response.ok) {
       const errorText = await response.text();
       console.error("Erreur API:", errorText);
+
+      // Erreur spécifique pour 403
+      if (response.status === 403) {
+        throw new Error("Utilisateur inexistant ou mot de passe incorrect");
+      }
+
+      // Erreur générique pour d'autres codes d'erreur
       throw new Error(`Erreur ${response.status}: ${errorText}`);
     }
 
@@ -35,7 +43,7 @@ export async function loginHandler(username, password, router) {
     console.log("Token nettoyé:", jwt.substring(0, 20) + "...");
     localStorage.setItem("jwtToken", jwt);
 
-    // Vérifiez immédiatement dans le storage
+    // Vérification immédiate dans le storage
     const storedToken = localStorage.getItem("jwtToken");
     console.log(
       "Token stocké:",
@@ -45,6 +53,6 @@ export async function loginHandler(username, password, router) {
     router.push("/home");
   } catch (error) {
     console.error("Échec de la connexion:", error);
-    alert(`Échec de la connexion: ${error.message}`);
+    throw error; // Renvoie l'erreur pour qu'elle soit capturée dans RenderLogin
   }
 }
