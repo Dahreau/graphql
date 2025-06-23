@@ -21,7 +21,7 @@ export default function RenderLogin() {
       // Appel à loginHandler et redirection en cas de succès
       await loginHandler(username, password, router);
     } catch (err) {
-      // Gérer l'erreur ici, afficher le message d'erreur spécifique
+      // Gérer l'erreur ici, afficher le message d'erreur générique
       setError(err.message || "Une erreur est survenue, veuillez réessayer");
     } finally {
       setLoading(false); // Terminer l'état de chargement

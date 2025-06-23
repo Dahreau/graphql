@@ -18,12 +18,13 @@ export async function loginHandler(username, password, router) {
       const errorText = await response.text();
       console.error("Erreur API:", errorText);
 
-      // Erreur spécifique pour 403
-      if (response.status === 403) {
-        throw new Error("Utilisateur inexistant ou mot de passe incorrect");
+      // On analyse le code d'erreur et affichage d'un message générique
+      if (response.status === 401 || response.status === 403) {
+        // Message générique pour tout type d'erreur de connexion
+        throw new Error("Nom d'utilisateur ou mot de passe incorrect.");
       }
 
-      // Erreur générique pour d'autres codes d'erreur
+      // Autres erreurs
       throw new Error(`Erreur ${response.status}: ${errorText}`);
     }
 
